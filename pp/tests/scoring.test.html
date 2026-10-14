@@ -1,0 +1,32 @@
+<!doctype html>
+<html lang="pl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Testy punktacji – Prakriti Parikshana</title>
+<style>
+  body { font: 15px/1.5 system-ui, sans-serif; margin: 24px; color: #222; background: #fff; }
+  li { margin: 2px 0; } .ok { color: #1b7f3b; } .fail { color: #b3261e; font-weight: 600; }
+  small { color: #666; }
+</style>
+</head>
+<body>
+<h1>Testy punktacji</h1>
+<p id="sum"></p>
+<ul id="out"></ul>
+<script src="../data/cechy.js"></script>
+<script src="../js/scoring.js"></script>
+<script src="scoring.tests.js"></script>
+<script>
+  var res = PPTestCases(PPScoring, PP_TRAITS), fail = 0, ul = document.getElementById("out");
+  res.forEach(function (r) {
+    var li = document.createElement("li");
+    li.className = r.ok ? "ok" : "fail";
+    li.textContent = (r.ok ? "✓ " : "✗ ") + r.name;
+    if (!r.ok) { var s = document.createElement("small"); s.textContent = "  " + r.detail; li.appendChild(s); fail++; }
+    ul.appendChild(li);
+  });
+  document.getElementById("sum").textContent = (res.length - fail) + " / " + res.length + " testów zaliczonych";
+</script>
+</body>
+</html>
