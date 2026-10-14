@@ -12,7 +12,8 @@ Aplikacja przeglądarkowa do badania konstytucji (prakriti) według klasycznego 
    - **pokrycie** = zaznaczone cechy danej doszy ÷ wszystkie jej cechy,
    - **udział** = pokrycie ÷ suma pokryć trzech dosz,
    - **typ**: *Sama*, gdy wszystkie udziały różnią się o mniej niż 10 pkt proc.; dwudoszowy, gdy dwie pierwsze dosze różnią się o mniej niż 10 pkt proc.; w pozostałych przypadkach jednodoszowy.
-4. Raport można wydrukować, zapisać jako PDF, JSON (do ponownego wczytania) lub CSV.
+4. Raport zawiera ogólne zalecenia dla wyniku (dosza przeważająca, typ dwudoszowy lub Sama, pora roku), każde z wersetem z Ashtanga Hridaya lub Charaki.
+5. Raport można wydrukować, zapisać jako PDF, JSON (do ponownego wczytania) lub CSV.
 
 U kobiet 7 cech dotyczących zarostu i odbioru przez kobiety jest pomijanych i nie wlicza się do mianownika (Vata 113, Pitta 83, Kapha 114 zamiast 116 / 87 / 114).
 
@@ -26,6 +27,7 @@ pp/config.js             stałe (próg typu mieszanego, klucze zapisu)
 pp/css/style.css         wygląd, wersja mobilna, wydruk
 pp/data/cechy.js         317 cech (generowane ze źródłowej tabeli cech)
 pp/data/sekcje.js        27 sekcji z podpowiedziami dla badającego
+pp/data/zalecenia.js     zalecenia dla typów konstytucji
 pp/js/scoring.js         punktacja (czyste funkcje)
 pp/js/storage.js         zapis, import/eksport
 pp/js/i18n.js            teksty PL / EN

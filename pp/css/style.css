@@ -240,3 +240,33 @@ tr.v .sw { background: var(--vata); } tr.p .sw { background: var(--pitta); } tr.
   .cl li { margin-bottom: 1px; }
   .sw { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
 }
+
+/* recommendations */
+.recs .rec { background: var(--card); border: 1px solid var(--line); border-left: 4px solid var(--line); border-radius: var(--r); padding: 14px 18px; margin-bottom: 14px; }
+.rec.v { border-left-color: var(--vata); } .rec.p { border-left-color: var(--pitta); } .rec.k { border-left-color: var(--kapha); }
+.rec h4 { font-size: 1.05rem; margin-bottom: .3em; }
+.rec.v h4 { color: var(--vata); } .rec.p h4 { color: var(--pitta); } .rec.k h4 { color: var(--kapha); }
+.rec-intro { color: var(--muted); font-size: .92rem; margin-bottom: .6em; }
+.rec ul { list-style: none; margin: 0; padding: 0; }
+.rec li { display: flex; justify-content: space-between; gap: 16px; padding: 6px 0; border-top: 1px solid var(--line); }
+.rec li:first-child { border-top: 0; }
+.rec .src, .rec-season .src { color: var(--muted); font-size: .8rem; white-space: nowrap; font-variant-numeric: tabular-nums; }
+.rec dl { margin: 0 0 6px; display: grid; grid-template-columns: max-content 1fr; gap: 4px 16px; }
+.rec dt { color: var(--muted); }
+.rec dd { margin: 0; }
+.rec.sama p { margin: 0; }
+.rec-season { border-left: 3px solid var(--ink); padding: 4px 0 4px 12px; }
+@media (max-width: 520px) { .rec li { flex-direction: column; gap: 0; } .rec dl { grid-template-columns: 1fr; } }
+@media print { .recs .rec { padding: 6px 10px; margin-bottom: 6px; break-inside: avoid; } .rec li { padding: 1px 0; font-size: 9pt; } }
+
+/* compatibility marks, uncertainty */
+.rec-t { display: flex; flex-direction: column; }
+.fx { font-size: .8rem; margin-top: 2px; }
+.fx-ok { color: var(--kapha); }
+.fx-warn { color: var(--pitta); }
+.fx-bad { color: var(--danger); font-weight: 600; }
+.fx-legend { color: var(--muted); font-size: .85rem; }
+.uncertain { margin: 14px 0 0; padding: 10px 14px; border: 1px solid var(--pitta); background: var(--pitta-bg); border-radius: var(--r); max-width: 62ch; }
+@media print { .uncertain { -webkit-print-color-adjust: exact; print-color-adjust: exact; } .fx { font-size: 8pt; } }
+/* Windows print drivers drop the "tt"/"fi" ligature glyphs of some serif fonts */
+body, h1, h2, h3, h4 { font-variant-ligatures: no-common-ligatures; font-feature-settings: "liga" 0, "clig" 0; }

@@ -56,6 +56,19 @@
     return result;
   }
 
+  /**
+   * How many extra ticks of the second dosha would make it overtake the first
+   * (coverage strictly higher). Returns null when there is no result.
+   * Small numbers (1–2) mean the order of the two doshas is uncertain.
+   */
+  function margin(r) {
+    if (!r || !r.count || r.order.length < 2) return null;
+    var a = r.order[0], b = r.order[1];
+    if (!r.total[a] || !r.total[b]) return null;
+    var need = Math.floor((r.hit[a] / r.total[a]) * r.total[b] - r.hit[b] + 1e-9) + 1;
+    return Math.max(1, Math.min(need, r.total[b] - r.hit[b] + 1));
+  }
+
   /** Per-section counts of ticked traits: {sectionNo: {V,P,K}} */
   function bySection(traits, checked, sex) {
     var ticked = checked instanceof Set ? checked : new Set(checked || []);
@@ -80,7 +93,7 @@
     return next;
   }
 
-  var api = { score: score, bySection: bySection, toggle: toggle, isAvailable: isAvailable, DOSHAS: DOSHAS };
+  var api = { score: score, margin: margin, bySection: bySection, toggle: toggle, isAvailable: isAvailable, DOSHAS: DOSHAS };
   if (typeof module !== "undefined" && module.exports) module.exports = api;
   root.PPScoring = api;
 })(typeof window !== "undefined" ? window : globalThis);

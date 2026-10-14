@@ -203,6 +203,60 @@
     return rows.length ? '<dl class="meta-list">' + rows.join("") + '</dl>' : "";
   }
 
+  /* ---------- recommendations ---------- */
+  var FX_ICON = { ok: "✓", warn: "!", bad: "✗" };
+
+  // List for dosha d; when `other` is given, each item shows how it affects that dosha.
+  function recItems(d, other) {
+    var R = window.PP_RECS.single[d];
+    return '<div class="rec ' + d.toLowerCase() + '">' +
+      '<h4>' + esc(fmt(t("recFor"), { d: t("doshaAcc")[d] })) + '</h4>' +
+      '<p class="rec-intro">' + esc(lang === "pl" ? R.intro_pl : R.intro_en) + '</p>' +
+      '<ul>' + R.items.map(function (it) {
+        var fx = other && it.fx && it.fx[other];
+        var label = fx ? fmt(t("fx_" + fx), { gen: t("doshaGen")[other], loc: t("doshaLoc")[other], acc: t("doshaAcc")[other] }) : "";
+        var mark = fx ? '<span class="fx fx-' + fx + '"><span aria-hidden="true">' + FX_ICON[fx] + '</span> ' + esc(label) + '</span>' : "";
+        return '<li><span class="rec-t">' + esc(lang === "pl" ? it.pl : it.en) + mark + '</span><span class="src">' + esc(it.src) + '</span></li>';
+      }).join("") + '</ul></div>';
+  }
+
+  function recommendations(r) {
+    var REC = window.PP_RECS; if (!REC) return "";
+    var html = "", first = r.order[0], second = r.order[1];
+    if (r.type === "sama") {
+      html += '<div class="rec sama"><p>' + esc(lang === "pl" ? REC.sama[0] : REC.sama[1]) +
+        ' <span class="src">' + esc(REC.sama[2]) + '</span></p></div>';
+    } else if (r.type === "dual") {
+      var pair = r.doshas.slice().sort(function (x, y) { return "VPK".indexOf(x) - "VPK".indexOf(y); }).join("");
+      var D = REC.dual[pair];
+      html += '<div class="rec dual"><h4>' + esc(fmt(t("recDual"), { a: dn(first), b: dn(second) })) + '</h4>' +
+        '<dl><dt>' + esc(t("recCommon")) + '</dt><dd>' + esc(lang === "pl" ? D[0] : D[2]) + '</dd>' +
+        '<dt>' + esc(t("recCaution")) + '</dt><dd>' + esc(lang === "pl" ? D[1] : D[3]) + '</dd></dl>' +
+        '<p class="src">' + esc(t("recDerived")) + ' (' + esc(REC.dual_src) + ')</p></div>';
+      html += recItems(first, second) + recItems(second, first);
+    } else {
+      html += recItems(first, second);
+    }
+    if (r.type !== "sama") {
+      html += '<p class="fx-legend">' + esc(fmt(t("fxLegend"), { src: REC.fx_src })) + '</p>';
+    }
+    var ritu = state.patient.ritu, agg = REC.season.aggravates[ritu];
+    if (r.type !== "sama" && ritu && agg && r.doshas.indexOf(agg) >= 0) {
+      html += '<p class="rec-season">' + esc(fmt(t("recSeason"), { ritu: t("ritus")[ritu], d: t("doshaGen")[agg] })) +
+        ' <span class="src">' + esc(REC.season._src) + '</span></p>';
+    }
+    return '<section aria-labelledby="h-rec" class="recs"><h3 id="h-rec">' + esc(t("recTitle")) + '</h3>' + html +
+      '<p class="disclaimer">' + esc(t("recDisclaimer")) + '</p></section>';
+  }
+
+  // Warn when one or two extra ticks would swap the two leading doshas.
+  function uncertainty(r) {
+    var m = S.margin(r);
+    if (m === null || m > CFG.UNCERTAIN_TRAITS || r.type === "sama") return "";
+    return '<p class="uncertain" role="note">' + esc(fmt(t(m === 1 ? "uncertain1" : "uncertainN"),
+      { n: m, d: t("doshaGen")[r.order[1]], a: dn(r.order[0]), ains: t("doshaIns")[r.order[0]], b: dn(r.order[1]) })) + '</p>';
+  }
+
   function renderResult() {
     var r = result();
     var actions =
@@ -250,9 +304,11 @@
           '<h2 class="rep-type">' + esc(tl.title) + '</h2>' +
           '<p class="rep-desc">' + esc(tl.desc) + ' ' + esc(t("pradhana")) + ': <strong>' + dn(r.pradhana) + '</strong>.</p>' +
           metaLine() +
+          uncertainty(r) +
         '</header>' +
         '<section aria-labelledby="h-share"><h3 id="h-share">' + esc(t("shareTitle")) + '</h3><div class="bar">' + bar + '</div></section>' +
         '<section aria-labelledby="h-table"><h3 id="h-table">' + esc(t("tableTitle")) + '</h3>' + table + '<p class="small">' + esc(t("methodNote")) + '</p></section>' +
+        recommendations(r) +
         '<section aria-labelledby="h-sec"><h3 id="h-sec">' + esc(t("bySectionTitle")) + '</h3><table class="bysec"><thead><tr><th></th>' +
           DOSHAS.map(function (d) { return '<th scope="col" class="' + d.toLowerCase() + '">' + dn(d) + '</th>'; }).join("") + '</tr></thead><tbody>' + secRows + '</tbody></table></section>' +
         '<section aria-labelledby="h-checked" class="page-break"><h3 id="h-checked">' + esc(t("checkedTitle")) + '</h3><div class="cls">' + checkedList + '</div></section>' +

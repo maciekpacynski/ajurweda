@@ -61,6 +61,23 @@
     check("Sekcja 15 ma 3 cechy w grupie", grp.length === 3);
     var bs = S.bySection(T, pick(2, 1, 0), "M");
     check("Rozkład na sekcje", bs[1].V === 2 && bs[1].P === 1 && bs[1].K === 0);
+    // Uncertainty margin: example from a printed report – V 13/113, P 9/83 → one more Pitta tick flips the order
+    var M = [];
+    for (var i = 1; i <= 113; i++) M.push({ id: "v" + i, d: "V" });
+    for (i = 1; i <= 83; i++) M.push({ id: "p" + i, d: "P" });
+    for (i = 1; i <= 114; i++) M.push({ id: "k" + i, d: "K" });
+    var tick = [];
+    for (i = 1; i <= 13; i++) tick.push("v" + i);
+    for (i = 1; i <= 9; i++) tick.push("p" + i);
+    tick.push("k1", "k2");
+    r = S.score(M, tick, "", 10);
+    check("Wydruk: Vata-Pitta 47,7 / 45,0", r.type === "dual" && r.order.join() === "V,P,K" && Math.abs(r.share.V - 47.7) < 0.05, JSON.stringify(r.share));
+    check("Wydruk: margines = 1 cecha Pitty", S.margin(r) === 1, String(S.margin(r)));
+    r = S.score(M, tick.concat(["p10"]), "", 10);
+    check("Po dodaniu 1 cechy Pitty kolejność się odwraca", r.order[0] === "P");
+    r = S.score(T, pick(9, 3, 1), "M", 10);
+    check("Duża przewaga: margines > 2", S.margin(r) > 2, String(S.margin(r)));
+    check("Brak wyniku: margines null", S.margin(S.score(T, [], "M", 10)) === null);
     return out;
   }
   root.PPTestCases = cases;
