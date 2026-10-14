@@ -24,7 +24,7 @@ Dane zapisują się wyłącznie w przeglądarce (localStorage, klucz `pp-state-v
 pp.html                  strona aplikacji
 pp/config.js             stałe (próg typu mieszanego, klucze zapisu)
 pp/css/style.css         wygląd, wersja mobilna, wydruk
-pp/data/cechy.js         317 cech (generowane; kopia w cechy.json)
+pp/data/cechy.js         317 cech (generowane ze źródłowej tabeli cech)
 pp/data/sekcje.js        27 sekcji z podpowiedziami dla badającego
 pp/js/scoring.js         punktacja (czyste funkcje)
 pp/js/storage.js         zapis, import/eksport
@@ -34,16 +34,6 @@ pp/tests/                testy punktacji
 ```
 
 Dane i teksty są w plikach `.js`, a nie `.json`, żeby aplikacja działała także po otwarciu `pp.html` bezpośrednio z dysku.
-
-## Publikacja
-
-W terminalu PyCharm, w folderze projektu:
-
-```
-python tools/publish.py "Opis zmiany"
-```
-
-Skrypt odświeża dane, uruchamia testy i wysyła zmiany na GitHub (`git add`, `commit`, `push`). Przy pierwszym uruchomieniu sam łączy folder z repozytorium `maciekpacynski/ajurweda`.
 
 ## Testy
 
