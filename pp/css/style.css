@@ -270,4 +270,3 @@ tr.v .sw { background: var(--vata); } tr.p .sw { background: var(--pitta); } tr.
 @media print { .uncertain { -webkit-print-color-adjust: exact; print-color-adjust: exact; } .fx { font-size: 8pt; } }
 /* Windows print drivers drop the "tt"/"fi" ligature glyphs of some serif fonts */
 body, h1, h2, h3, h4 { font-variant-ligatures: no-common-ligatures; font-feature-settings: "liga" 0, "clig" 0; }
-.rec-lead { max-width: 62ch; }
