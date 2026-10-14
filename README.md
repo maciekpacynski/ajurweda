@@ -35,6 +35,16 @@ pp/tests/                testy punktacji
 
 Dane i teksty są w plikach `.js`, a nie `.json`, żeby aplikacja działała także po otwarciu `pp.html` bezpośrednio z dysku.
 
+## Publikacja
+
+W terminalu PyCharm, w folderze projektu:
+
+```
+python tools/publish.py "Opis zmiany"
+```
+
+Skrypt odświeża dane, uruchamia testy i wysyła zmiany na GitHub (`git add`, `commit`, `push`). Przy pierwszym uruchomieniu sam łączy folder z repozytorium `maciekpacynski/ajurweda`.
+
 ## Testy
 
 - w przeglądarce: otwórz `pp/tests/scoring.test.html`,

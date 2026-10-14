@@ -51,13 +51,37 @@
     return s;
   }
 
+  /**
+   * Save a text file.
+   * Resolves to "saved"     – the person picked a place and the file was written (Chrome/Edge over https),
+   *             "cancelled" – the person closed the save dialog,
+   *             "download"  – the browser's ordinary download was started; the page cannot know
+   *                           whether the person finished saving, so it must not claim it did.
+   */
   function download(filename, text, mime) {
     var blob = new Blob([text], { type: mime + ";charset=utf-8" });
-    var url = URL.createObjectURL(blob);
-    var a = document.createElement("a");
-    a.href = url; a.download = filename;
-    document.body.appendChild(a); a.click(); a.remove();
-    setTimeout(function () { URL.revokeObjectURL(url); }, 1000);
+    var ext = filename.slice(filename.lastIndexOf("."));
+    if (typeof root.showSaveFilePicker === "function" && root.isSecureContext) {
+      var accept = {}; accept[mime] = [ext];
+      return root.showSaveFilePicker({ suggestedName: filename, types: [{ description: ext.slice(1).toUpperCase(), accept: accept }] })
+        .then(function (handle) { return handle.createWritable(); })
+        .then(function (w) { return w.write(blob).then(function () { return w.close(); }); })
+        .then(function () { return "saved"; })
+        .catch(function (e) {
+          if (e && e.name === "AbortError") return "cancelled";
+          return fallback();
+        });
+    }
+    return Promise.resolve(fallback());
+
+    function fallback() {
+      var url = URL.createObjectURL(blob);
+      var a = document.createElement("a");
+      a.href = url; a.download = filename;
+      document.body.appendChild(a); a.click(); a.remove();
+      setTimeout(function () { URL.revokeObjectURL(url); }, 1000);
+      return "download";
+    }
   }
 
   function csvCell(v) {

@@ -274,6 +274,10 @@
   }
 
   /* ---------- events ---------- */
+  // Confirm only when the file was really written. For an ordinary download the browser
+  // shows its own save dialog / download bar, so the page stays silent.
+  function saveToast(outcome) { if (outcome === "saved") toast(t("saved")); }
+
   function fileName(ext) {
     var code = (state.patient.code || "badanie").replace(/[^\w\-]+/g, "_");
     return "prakriti_" + code + "_" + (state.patient.date || "") + "." + ext;
@@ -296,8 +300,10 @@
       case "prev": state.section = Math.max(1, state.section - 1); go("survey"); break;
       case "next": state.section = Math.min(SECTIONS.length, state.section + 1); go("survey"); break;
       case "print": window.print(); break;
-      case "save": ST.download(fileName("json"), JSON.stringify(Object.assign({}, state, { checked: Array.from(checked) }), null, 1), "application/json"); toast(t("saved")); break;
-      case "csv": ST.download(fileName("csv"), ST.toCsv(Object.assign({}, state, { checked: Array.from(checked) }), result()), "text/csv"); toast(t("saved")); break;
+      case "save":
+        ST.download(fileName("json"), JSON.stringify(Object.assign({}, state, { checked: Array.from(checked) }), null, 1), "application/json").then(saveToast); break;
+      case "csv":
+        ST.download(fileName("csv"), ST.toCsv(Object.assign({}, state, { checked: Array.from(checked) }), result()), "text/csv").then(saveToast); break;
       case "clear":
         if (!confirm(t("confirmClear"))) return;
         ST.clear(); state = ST.emptyState(); checked = new Set(); go("start"); break;

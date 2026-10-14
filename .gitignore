@@ -1,0 +1,11 @@
+# PyCharm / JetBrains
+.idea/
+*.iml
+# OS
+.DS_Store
+Thumbs.db
+desktop.ini
+# Python (if any scripts are added later)
+__pycache__/
+.venv/
+venv/
