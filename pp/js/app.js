@@ -245,7 +245,8 @@
       html += '<p class="rec-season">' + esc(fmt(t("recSeason"), { ritu: t("ritus")[ritu], d: t("doshaGen")[agg] })) +
         ' <span class="src">' + esc(REC.season._src) + '</span></p>';
     }
-    return '<section aria-labelledby="h-rec" class="recs"><h3 id="h-rec">' + esc(t("recTitle")) + '</h3>' + html +
+    return '<section aria-labelledby="h-rec" class="recs"><h3 id="h-rec">' + esc(t("recTitle")) + '</h3>' +
+      (r.type !== "sama" ? '<p class="rec-lead">' + esc(t("recLead")) + '</p>' : '') + html +
       '<p class="disclaimer">' + esc(t("recDisclaimer")) + '</p></section>';
   }
 
