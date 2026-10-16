@@ -267,11 +267,41 @@
   }
 
   // Warn when one or two extra ticks would swap the two leading doshas.
+  // Would one or two traits more (or fewer) of one dosha change the result? (any type, sama included)
   function uncertainty(r) {
-    var m = S.margin(r);
-    if (m === null || m > CFG.UNCERTAIN_TRAITS || r.type === "sama") return "";
-    return '<p class="uncertain" role="note">' + esc(fmt(t(m === 1 ? "uncertain1" : "uncertainN"),
-      { n: m, d: t("doshaGen")[r.order[1]], a: dn(r.order[0]), ains: t("doshaIns")[r.order[0]], b: dn(r.order[1]) })) + '</p>';
+    var st = S.stability(r, CFG.MIXED_THRESHOLD, CFG.UNCERTAIN_TRAITS);
+    if (!st) return "";
+    var to = typeLabel({ type: st.to.type, doshas: st.to.doshas }).title;
+    var key = (st.dir === "add" ? "uncAdd" : "uncRemove") + (st.k === 1 ? "1" : "N");
+    return '<p class="uncertain" role="note">' + esc(fmt(t(key), { n: st.k, d: t("doshaGen")[st.d], to: to })) + '</p>';
+  }
+
+  // Too little data for a meaningful result: few ticks or many sections without any tick.
+  function lowData(r) {
+    var bs = S.bySection(TRAITS, checked, state.patient.sex);
+    var empty = SECTIONS.filter(function (s) { return !bs[s.n]; }).map(function (s) { return s.n; });
+    var withTicks = SECTIONS.length - empty.length;
+    if (withTicks >= CFG.MIN_SECTIONS && r.count >= CFG.MIN_TICKS) return null;
+    return { empty: empty, all: r.total.V + r.total.P + r.total.K };
+  }
+
+  // [2,3,4,7,9,10] → "2–4, 7, 9–10"
+  function ranges(list) {
+    var out = [], i = 0;
+    while (i < list.length) {
+      var j = i;
+      while (j + 1 < list.length && list[j + 1] === list[j] + 1) j++;
+      out.push(j > i ? list[i] + "–" + list[j] : String(list[i]));
+      i = j + 1;
+    }
+    return out.join(", ");
+  }
+
+  function lowDataNote(r, ld) {
+    if (!ld) return "";
+    var txt = fmt(t("lowData"), { n: r.count, all: ld.all });
+    if (ld.empty.length) txt += " " + fmt(t("lowDataEmpty"), { list: ranges(ld.empty) });
+    return '<p class="uncertain low" role="note">' + esc(txt + " " + t("lowDataGo")) + '</p>';
   }
 
   function renderResult() {
@@ -288,7 +318,7 @@
       app.innerHTML = '<section class="screen narrow"><h2>' + esc(t("resultTitle")) + '</h2><p>' + esc(t("noTicks")) + '</p>' + actions + '</section>';
       return;
     }
-    var tl = typeLabel(r);
+    var tl = typeLabel(r), ld = lowData(r);
     var bar = DOSHAS.map(function (d) {
       return '<div class="seg ' + d.toLowerCase() + '" style="flex-basis:' + r.share[d].toFixed(2) + '%"></div>';
     }).join("");
@@ -320,15 +350,16 @@
     app.innerHTML =
       '<article class="report">' +
         '<header class="rep-h">' +
-          '<p class="rep-kicker">' + esc(t("resultTitle")) + '</p>' +
+          '<p class="rep-kicker">' + esc(t(ld ? "resultPrelim" : "resultTitle")) + '</p>' +
           '<h2 class="rep-type"><span class="rep-icons">' + typeIcons(r) + '</span>' + esc(tl.title) + '</h2>' +
           '<p class="rep-desc">' + esc(tl.desc) + ' ' + esc(t("pradhana")) + ': <strong class="prad ' + r.pradhana.toLowerCase() + '">' + window.ppDoshaIcon(r.pradhana, 18) + dn(r.pradhana) + '</strong>.</p>' +
           metaLine() +
+          lowDataNote(r, ld) +
           uncertainty(r) +
           lifeStageNote() +
         '</header>' +
         '<section aria-labelledby="h-share"><h3 id="h-share">' + esc(t("shareTitle")) + '</h3><div class="bar" aria-hidden="true">' + bar + '</div><div class="legend">' + legend + '</div></section>' +
-        '<section aria-labelledby="h-table"><h3 id="h-table">' + esc(t("tableTitle")) + '</h3>' + table + '<p class="small">' + esc(t("methodNote")) + '</p></section>' +
+        '<section aria-labelledby="h-table"><h3 id="h-table">' + esc(t("tableTitle")) + '</h3>' + table + '<p class="small">' + esc(t("methodNote")) + ' ' + esc(fmt(t("weightNote"), { v: r.total.V, p: r.total.P, k: r.total.K })) + '</p></section>' +
         recommendations(r) +
         '<section aria-labelledby="h-sec"><h3 id="h-sec">' + esc(t("bySectionTitle")) + '</h3><table class="bysec"><thead><tr><th></th>' +
           DOSHAS.map(function (d) { return '<th scope="col" class="' + d.toLowerCase() + '">' + window.ppDoshaIcon(d, 16) + dn(d) + '</th>'; }).join("") + '</tr></thead><tbody>' + secRows + '</tbody></table></section>' +

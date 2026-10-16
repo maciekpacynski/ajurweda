@@ -78,6 +78,20 @@
     r = S.score(T, pick(9, 3, 1), "M", 10);
     check("Duża przewaga: margines > 2", S.margin(r) > 2, String(S.margin(r)));
     check("Brak wyniku: margines null", S.margin(S.score(T, [], "M", 10)) === null);
+    // Stability: does 1–2 traits more or fewer change the result? (sama included)
+    var M2 = [];
+    for (i = 1; i <= 116; i++) M2.push({ id: "v" + i, d: "V" });
+    for (i = 1; i <= 87; i++) M2.push({ id: "p" + i, d: "P" });
+    for (i = 1; i <= 114; i++) M2.push({ id: "k" + i, d: "K" });
+    r = S.score(M2, ["v1", "p1", "k1"], "", 10);
+    var st = S.stability(r, 10, 2);
+    check("1/1/1: Sama prakriti", r.type === "sama", r.type);
+    check("1/1/1: jedna cecha więcej zmienia wynik", st && st.k === 1 && st.dir === "add" && st.to.type === "single", JSON.stringify(st));
+    st = S.stability(S.score(M, tick, "", 10), 10, 2);
+    check("Wydruk V-P: stabilność = 1 cecha", st && st.k === 1, JSON.stringify(st));
+    var big = []; for (i = 1; i <= 60; i++) big.push("v" + i); for (i = 1; i <= 10; i++) big.push("p" + i, "k" + i);
+    check("Duża przewaga: brak ostrzeżenia", S.stability(S.score(M2, big, "", 10), 10, 2) === null);
+    check("Brak wyniku: stabilność null", S.stability(S.score(M2, [], "", 10), 10, 2) === null);
     // Season suggestion for Poland
     if (SE) {
       var tb = CFG && CFG.RITU_PL;

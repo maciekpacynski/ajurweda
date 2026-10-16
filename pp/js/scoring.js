@@ -44,16 +44,54 @@
                    order: [], type: null, doshas: [], pradhana: null };
     if (!count) return result;
 
-    // Stable order: by share descending, ties keep V, P, K order.
-    var order = DOSHAS.slice().sort(function (a, b) { return share[b] - share[a]; });
-    result.order = order;
-    result.pradhana = order[0];
-    var s0 = share[order[0]], s1 = share[order[1]], s2 = share[order[2]];
-    var eps = 1e-9;
-    if (s0 - s2 < th - eps) { result.type = "sama"; result.doshas = order.slice(); }
-    else if (s0 - s1 < th - eps) { result.type = "dual"; result.doshas = order.slice(0, 2); }
-    else { result.type = "single"; result.doshas = [order[0]]; }
+    var c = classify(share, th);
+    result.order = c.order; result.pradhana = c.order[0]; result.type = c.type; result.doshas = c.doshas;
     return result;
+  }
+
+  /** Type from shares. Stable order: by share descending, ties keep V, P, K order. */
+  function classify(share, th) {
+    var order = DOSHAS.slice().sort(function (a, b) { return share[b] - share[a]; });
+    var s0 = share[order[0]], s1 = share[order[1]], s2 = share[order[2]], eps = 1e-9;
+    if (s0 - s2 < th - eps) return { order: order, type: "sama", doshas: order.slice() };
+    if (s0 - s1 < th - eps) return { order: order, type: "dual", doshas: order.slice(0, 2) };
+    return { order: order, type: "single", doshas: [order[0]] };
+  }
+
+  function typeFromCounts(hit, total, th) {
+    var cov = {}, sum = 0;
+    DOSHAS.forEach(function (d) { cov[d] = total[d] ? hit[d] / total[d] : 0; sum += cov[d]; });
+    if (!sum) return null;
+    var share = {};
+    DOSHAS.forEach(function (d) { share[d] = cov[d] / sum * 100; });
+    return classify(share, th);
+  }
+
+  // What the result is called: type + doshas in the name (sama: no order in the name).
+  function signature(c) { return c.type + ":" + (c.type === "sama" ? "" : c.doshas.join("")); }
+
+  /**
+   * Smallest change that would give a different result (another type or another order in the name).
+   * Tries adding, then unticking, 1..maxK traits of one dosha.
+   * Returns {k, d, dir: "add"|"remove", to: {type, doshas}} or null if nothing changes within maxK.
+   */
+  function stability(r, th, maxK) {
+    if (!r || !r.count) return null;
+    var thr = typeof th === "number" ? th : 10, max = maxK || 2;
+    var now = signature(r);
+    for (var k = 1; k <= max; k++) {
+      var dirs = ["add", "remove"];
+      for (var i = 0; i < dirs.length; i++) {
+        for (var j = 0; j < DOSHAS.length; j++) {
+          var d = DOSHAS[j], h = { V: r.hit.V, P: r.hit.P, K: r.hit.K };
+          h[d] += dirs[i] === "add" ? k : -k;
+          if (h[d] < 0 || h[d] > r.total[d]) continue;
+          var c = typeFromCounts(h, r.total, thr);
+          if (c && signature(c) !== now) return { k: k, d: d, dir: dirs[i], to: { type: c.type, doshas: c.doshas } };
+        }
+      }
+    }
+    return null;
   }
 
   /**
@@ -93,7 +131,7 @@
     return next;
   }
 
-  var api = { score: score, margin: margin, bySection: bySection, toggle: toggle, isAvailable: isAvailable, DOSHAS: DOSHAS };
+  var api = { score: score, margin: margin, stability: stability, classify: classify, bySection: bySection, toggle: toggle, isAvailable: isAvailable, DOSHAS: DOSHAS };
   if (typeof module !== "undefined" && module.exports) module.exports = api;
   root.PPScoring = api;
 })(typeof window !== "undefined" ? window : globalThis);
