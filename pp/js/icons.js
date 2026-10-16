@@ -38,8 +38,8 @@ window.ppIcon = function (n, size) {
 /* Dosha symbols from the logo: wind (Vata), flame (Pitta), drop (Kapha). Colour follows the text (currentColor). */
 window.PP_DOSHA_ICONS = {
   V: '<g fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M3 9h11a3 3 0 1 0-3-3"/><path d="M3 14h15a3 3 0 1 1-3 3"/><path d="M3 19h6"/></g>',
-  P: '<path fill="currentColor" d="M12 2.5c3.5 4 6 7 6 11a6 6 0 0 1-12 0c0-2.5 1.2-4.5 2.5-6 .4 2 1.5 3 2.5 3 1-2.5-.5-5 1-8Z"/>',
-  K: '<path fill="currentColor" d="M12 3c4 5 6.5 8.7 6.5 11.5a6.5 6.5 0 0 1-13 0C5.5 11.7 8 8 12 3Z"/>'
+  P: '<path fill="currentColor" d="M12 1.5c4.2 4.6 7.5 8.4 7.5 13a7.5 7.5 0 0 1-15 0c0-3 1.4-5.4 3-7.2.5 2.4 1.8 3.6 3 3.6 1.2-3-.6-6 1.5-9.4Z"/>',
+  K: '<path fill="currentColor" fill-rule="evenodd" d="M20.5 3.5C11 3.5 4.5 7.5 4.5 14c0 1.7.5 3.2 1.3 4.4L3.6 20.6l1 1 2.2-2.2c1.3 1 2.9 1.6 4.7 1.6 7 0 10-7 9-17.5ZM7.2 18.2c2.6-4.2 6-7.6 10.3-10.4l.5.7c-4.2 2.9-7.4 6.2-9.9 10.3Z"/>'
 };
 window.ppDoshaIcon = function (d, size) {
   var p = window.PP_DOSHA_ICONS[d]; if (!p) return '';
