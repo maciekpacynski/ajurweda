@@ -229,9 +229,10 @@
     } else if (r.type === "dual") {
       var pair = r.doshas.slice().sort(function (x, y) { return "VPK".indexOf(x) - "VPK".indexOf(y); }).join("");
       var D = REC.dual[pair];
+      var li = function (arr, cls) { return '<ul class="dual-list ' + cls + '">' + arr.map(function (x) { return '<li>' + esc(x) + '</li>'; }).join("") + '</ul>'; };
       html += '<div class="rec dual"><h4>' + esc(fmt(t("recDual"), { a: dn(first), b: dn(second) })) + '</h4>' +
-        '<dl><dt>' + esc(t("recCommon")) + '</dt><dd>' + esc(lang === "pl" ? D[0] : D[2]) + '</dd>' +
-        '<dt>' + esc(t("recCaution")) + '</dt><dd>' + esc(lang === "pl" ? D[1] : D[3]) + '</dd></dl>' +
+        '<h5>' + esc(t("recCommon")) + '</h5>' + li(lang === "pl" ? D.good_pl : D.good_en, "good") +
+        '<h5>' + esc(t("recCaution")) + '</h5>' + li(lang === "pl" ? D.avoid_pl : D.avoid_en, "avoid") +
         '<p class="src">' + esc(t("recDerived")) + ' (' + esc(REC.dual_src) + ')</p></div>';
       html += recItems(first, second) + recItems(second, first);
     } else {

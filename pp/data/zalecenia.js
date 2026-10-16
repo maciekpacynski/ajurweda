@@ -228,24 +228,64 @@ window.PP_RECS = {
   }
  },
  "dual": {
-  "VP": [
-   "smak słodki; posiłki z tłuszczem (ghee); spokój i regularność",
-   "potrawy ostre (szkodzą obu); ciepło tak, ale bez upału",
-   "sweet taste; meals with some fat (ghee); calm and regularity",
-   "spicy food (harms both); warmth yes, but no heat"
-  ],
-  "PK": [
-   "smaki gorzki i cierpki; lekkie posiłki; ruch",
-   "potrawy tłuste i słodkie w nadmiarze (Kapha) oraz ostre (Pitta)",
-   "bitter and astringent tastes; light meals; movement",
-   "too much fatty and sweet food (Kapha) and spicy food (Pitta)"
-  ],
-  "VK": [
-   "ciepło, ciepłe posiłki i rozgrzewanie (obie uspokaja ciepło)",
-   "zimno i surowe potrawy; smaki w umiarze, bo nie ma smaku wspólnego dla obu",
-   "warmth, warm meals and warming (warmth calms both)",
-   "cold and raw food; tastes in moderation, as no taste suits both"
-  ]
+  "VP": {
+   "good_pl": [
+    "Wybieraj potrawy o smaku słodkim (np. zboża, ryż, dojrzałe słodkie owoce)",
+    "Dodawaj do posiłków tłuszcz, najlepiej ghee",
+    "Dbaj o spokój i regularny rytm dnia"
+   ],
+   "avoid_pl": [
+    "Unikaj potraw ostrych (chili, pieprz, imbir) – nasilają obie dosze",
+    "Ciepło jest korzystne, ale unikaj upału i ostrego słońca"
+   ],
+   "good_en": [
+    "Choose sweet-tasting food (e.g. grains, rice, ripe sweet fruit)",
+    "Add fat to meals, preferably ghee",
+    "Keep calm and a regular daily rhythm"
+   ],
+   "avoid_en": [
+    "Avoid spicy food (chilli, pepper, ginger) – it increases both doshas",
+    "Warmth helps, but avoid heat and strong sun"
+   ]
+  },
+  "PK": {
+   "good_pl": [
+    "Wybieraj smak gorzki i cierpki (np. gorzkie warzywa, granat, rośliny strączkowe)",
+    "Jedz lekkie posiłki, bez przejadania się",
+    "Ruszaj się regularnie"
+   ],
+   "avoid_pl": [
+    "Nie przesadzaj z potrawami tłustymi i słodkimi – nasilają Kaphę",
+    "Unikaj potraw ostrych – nasilają Pittę"
+   ],
+   "good_en": [
+    "Choose bitter and astringent tastes (e.g. bitter vegetables, pomegranate, pulses)",
+    "Eat light meals and don't overeat",
+    "Move regularly"
+   ],
+   "avoid_en": [
+    "Don't overdo fatty and sweet food – it increases Kapha",
+    "Avoid spicy food – it increases Pitta"
+   ]
+  },
+  "VK": {
+   "good_pl": [
+    "Wybieraj ciepłe posiłki i napoje",
+    "Dbaj o ciepło: ciepłe okrycie, rozgrzewanie"
+   ],
+   "avoid_pl": [
+    "Unikaj zimna oraz zimnych i surowych potraw – nasilają obie dosze",
+    "Smaki stosuj z umiarem: słodki, kwaśny i słony nasilają Kaphę, a ostry, gorzki i cierpki – Vatę"
+   ],
+   "good_en": [
+    "Choose warm meals and drinks",
+    "Keep warm: warm clothing, warming up"
+   ],
+   "avoid_en": [
+    "Avoid cold and cold or raw food – it increases both doshas",
+    "Use tastes in moderation: sweet, sour and salty increase Kapha; pungent, bitter and astringent increase Vata"
+   ]
+  }
  },
  "dual_src": "AH Sū 1.15–16; 12.19–22",
  "sama": [
@@ -266,5 +306,6 @@ window.PP_RECS = {
    "sisira": "K"
   }
  },
- "fx_src": "AH Sū 1.14–16; 12.19–22; 13.1–12"
+ "fx_src": "AH Sū 1.14–16; 12.19–22; 13.1–12",
+ "examples_src": "przykłady smaków: materiał szkoleniowy DKPP (NCISM/CSIR-IGIB), pyt. 12.1"
 };
