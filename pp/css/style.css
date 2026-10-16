@@ -101,7 +101,7 @@ textarea { resize: vertical; }
 .guide li { margin-bottom: .6em; }
 
 /* survey */
-.survey { display: grid; grid-template-columns: 260px 1fr; gap: 32px; align-items: start; }
+.survey { display: grid; grid-template-columns: 300px 1fr; gap: 32px; align-items: start; }
 .side { position: sticky; top: 16px; max-height: calc(100vh - 32px); overflow: auto; padding-right: 4px; }
 .mobile-nav { display: none; }
 .nav { list-style: none; margin: 0; padding: 0; }
@@ -166,13 +166,20 @@ textarea { resize: vertical; }
 .meta-list div { display: flex; gap: 6px; }
 .meta-list dt { color: var(--muted); }
 .meta-list dd { margin: 0; }
-.bar { display: flex; min-height: 72px; border-radius: var(--r); overflow: hidden; }
-.seg { display: flex; flex-direction: column; justify-content: center; padding: 8px 12px; min-width: 0; overflow: hidden; white-space: nowrap; }
+.bar { display: flex; height: 22px; border-radius: var(--r); overflow: hidden; background: var(--line); }
+.seg { min-width: 0; }
 .seg.v { background: var(--vata); } .seg.p { background: var(--pitta); } .seg.k { background: var(--kapha); }
-.seg { color: #fff; }
-@media (prefers-color-scheme: dark) { .seg { color: #10171a; } }
-.seg-l { font-size: .85rem; }
-.seg-v { font-family: var(--serif); font-size: 1.4rem; font-weight: 600; font-variant-numeric: tabular-nums; }
+.legend { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; margin-top: 10px; }
+.leg { display: flex; align-items: center; gap: 8px; padding: 10px 14px; border-radius: var(--r); font-family: var(--serif); font-weight: 600; }
+.leg.v { background: var(--vata-bg); color: var(--vata); }
+.leg.p { background: var(--pitta-bg); color: var(--pitta); }
+.leg.k { background: var(--kapha-bg); color: var(--kapha); }
+.leg-l { font-size: 1.05rem; }
+.leg-v { margin-left: auto; font-size: 1.4rem; font-variant-numeric: tabular-nums; }
+.rep-type { display: flex; align-items: center; flex-wrap: wrap; gap: 0 .3em; }
+.rep-icons { display: inline-flex; gap: .08em; }
+.rep-icons svg { width: .78em; height: .78em; display: block; }
+.rep-icons .v { color: var(--vata); } .rep-icons .p { color: var(--pitta); } .rep-icons .k { color: var(--kapha); }
 table { border-collapse: collapse; width: 100%; font-variant-numeric: tabular-nums; }
 th, td { text-align: left; padding: 8px 10px; border-bottom: 1px solid var(--line); }
 thead th { font-size: .85rem; color: var(--muted); font-weight: 600; }
@@ -216,8 +223,7 @@ tr.v .sw { background: var(--vata); } tr.p .sw { background: var(--pitta); } tr.
   .top-in { padding: 12px 16px; }
   .row { grid-template-columns: 1fr; gap: 0; }
   .actions .btn { flex: 1 1 auto; }
-  .bar { flex-direction: column; }
-  .seg { flex-basis: auto !important; flex-direction: row; justify-content: space-between; }
+  .legend { grid-template-columns: 1fr; }
 }
 @media (prefers-reduced-motion: reduce) { #toast { transition: none; } }
 
@@ -230,9 +236,11 @@ tr.v .sw { background: var(--vata); } tr.p .sw { background: var(--pitta); } tr.
   main { padding: 0; max-width: none; }
   .report section { margin-top: 14px; }
   .rep-type { font-size: 28pt; }
-  .bar { min-height: 0; -webkit-print-color-adjust: exact; print-color-adjust: exact; }
-  .seg { color: #fff !important; padding: 4px 8px; }
-  .seg-v { font-size: 13pt; }
+  .bar, .leg, .rep-icons { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+  .bar { height: 12px; }
+  .legend { grid-template-columns: repeat(3, 1fr); margin-top: 6px; }
+  .leg { padding: 4px 8px; }
+  .leg-v { font-size: 13pt; }
   .print-only { display: block; }
   .cls { grid-template-columns: repeat(3, 1fr); }
   th, td { padding: 2px 6px; }
@@ -281,3 +289,75 @@ body, h1, h2, h3, h4 { font-variant-ligatures: no-common-ligatures; font-feature
 .brand { display: flex; align-items: center; gap: 12px; }
 .brand .logo { width: 44px; height: 44px; flex: none; display: block; }
 @media (max-width: 520px) { .brand .logo { width: 36px; height: 36px; } }
+
+/* section icons */
+.ico { flex: none; display: block; }
+.nav-name { display: flex; align-items: center; gap: 8px; min-width: 0; }
+.nav-item .ico { color: var(--muted); }
+.nav-item.current .ico { color: var(--ink); }
+.sec-h h2 { align-items: center; gap: .4em; }
+.sec-h h2 .ico { color: var(--ink); }
+.sec-skt { display: inline-flex; align-items: baseline; gap: .4em; font-size: 1.05rem; color: var(--muted); font-weight: 400; font-family: var(--sans); }
+.sec-skt i { font-family: var(--serif); }
+.sec-skt .sa { font-size: 1.05rem; }
+@media (max-width: 520px) { .sec-h h2 .ico { width: 24px; height: 24px; } .sec-skt { flex-basis: 100%; } }
+
+/* compact layout: whole section list visible without scrolling on a standard screen */
+.top-in { padding-top: 8px; padding-bottom: 8px; }
+main { padding-top: 18px; }
+.survey { grid-template-columns: 330px 1fr; }
+.side { top: 8px; max-height: calc(100vh - 16px); }
+.nav-item { padding: 3px 8px; font-size: .88rem; line-height: 1.25; }
+.nav-item .ico { width: 16px; height: 16px; }
+.dot { width: 16px; height: 16px; line-height: 16px; font-size: .65rem; }
+.side .btn.block { margin-top: 10px; min-height: 40px; padding: 8px 14px; }
+@media (max-width: 960px) { .survey { grid-template-columns: 1fr; } }
+/* tuned: column just wide enough for the longest name (EN), a little more air between rows */
+.survey { grid-template-columns: 312px 1fr; }
+.nav-item { padding: 5px 8px; }
+
+/* field labels: Sanskrit term + info tooltip */
+.lbl-row { display: flex; align-items: center; gap: 8px; margin-bottom: 6px; }
+.lbl-row label { margin: 0; }
+.lbl-skt { font-family: var(--serif); font-weight: 400; color: var(--muted); }
+.info { position: relative; display: inline-flex; }
+.info-btn { width: 20px; height: 20px; min-height: 0; padding: 0; border-radius: 50%; border: 1px solid var(--muted);
+  background: var(--card); color: var(--muted); font: italic 600 12px/1 var(--serif); cursor: help; }
+.info-btn:hover, .info-btn:focus-visible { border-color: var(--ink); color: var(--ink); }
+.info-tip { position: absolute; left: 50%; top: calc(100% + 8px); transform: translateX(-50%); z-index: 20; width: min(380px, 86vw);
+  background: var(--ink); color: var(--card); border-radius: var(--r); padding: 12px 14px; font-size: .85rem; line-height: 1.45;
+  box-shadow: 0 6px 20px rgba(0,0,0,.18); visibility: hidden; opacity: 0; transition: opacity .12s; }
+.info:hover .info-tip, .info:focus-within .info-tip { visibility: visible; opacity: 1; }
+.info-tip strong { display: block; margin-bottom: 6px; }
+.info-tip p { margin: 8px 0 0; }
+.info-tip table { width: auto; border-collapse: collapse; font-variant-numeric: tabular-nums; }
+.info-tip th, .info-tip td { border: 0; padding: 2px 12px 2px 0; text-align: left; color: inherit; font-size: .85rem; }
+.info-tip th { font-family: var(--serif); font-style: italic; font-weight: 600; }
+@media (max-width: 520px) { .info-tip { left: auto; right: -8px; transform: none; } }
+@media (prefers-reduced-motion: reduce) { .info-tip { transition: none; } }
+.stage-note { margin: 10px 0 0; padding: 10px 14px; border: 1px solid var(--line); background: var(--card); border-radius: var(--r); }
+.stage-note .src { color: var(--muted); font-size: .8rem; }
+@media print { .stage-note { padding: 4px 8px; } }
+/* tooltip opens to the right of the (i) so it never leaves the screen on the left */
+.info-tip { left: -10px; transform: none; }
+@media (max-width: 520px) { .info-tip { left: auto; right: -8px; } }
+
+/* dosha symbols */
+.dico { flex: none; display: inline-block; vertical-align: -0.2em; }
+.tri span { display: flex; align-items: center; gap: 10px; }
+.col-h > span { display: inline-flex; align-items: center; gap: 7px; }
+.rec h4 { display: flex; align-items: center; gap: 8px; }
+.sum th[scope="row"] .dico { margin-right: 2px; }
+tr.v .dico { color: var(--vata); } tr.p .dico { color: var(--pitta); } tr.k .dico { color: var(--kapha); }
+.info-tip { width: min(460px, 88vw); }
+@media print { .dico { -webkit-print-color-adjust: exact; print-color-adjust: exact; } }
+
+/* icons in the section table, ticked-trait lists and the pradhāna line */
+.bysec tbody th .ico { vertical-align: -3px; margin-right: 6px; color: var(--muted); }
+.bs-n { display: inline-block; min-width: 1.8em; }
+.bysec thead th .dico { vertical-align: -2px; margin-right: 5px; }
+.cl h4 { display: flex; align-items: center; gap: 6px; }
+.prad .dico { vertical-align: -3px; margin-right: 3px; }
+.prad.v .dico { color: var(--vata); } .prad.p .dico { color: var(--pitta); } .prad.k .dico { color: var(--kapha); }
+.bysec th .ico, .bysec th .dico, .prad .dico { display: inline-block; }
+.bysec th { white-space: nowrap; }

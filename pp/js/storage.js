@@ -34,6 +34,14 @@
     try { root.localStorage.setItem(C.LANG_KEY, l); } catch (e) {}
   }
 
+  // "How to assess" open/closed – same for all sections; open until the examiner closes it
+  function getHintOpen() {
+    try { return root.localStorage.getItem(C.HINT_KEY || "pp-hint-open") !== "0"; } catch (e) { return true; }
+  }
+  function setHintOpen(open) {
+    try { root.localStorage.setItem(C.HINT_KEY || "pp-hint-open", open ? "1" : "0"); } catch (e) {}
+  }
+
   /** Accept a parsed object; return a clean state or throw. */
   function normalize(obj) {
     if (!obj || obj.app !== "prakriti-parikshana" || !Array.isArray(obj.checked)) throw new Error("bad file");
@@ -104,5 +112,6 @@
   }
 
   root.PPStorage = { emptyState: emptyState, load: load, save: save, clear: clear, normalize: normalize,
-                     download: download, toCsv: toCsv, getLang: getLang, setLang: setLang };
+                     download: download, toCsv: toCsv, getLang: getLang, setLang: setLang,
+                     getHintOpen: getHintOpen, setHintOpen: setHintOpen };
 })(window);

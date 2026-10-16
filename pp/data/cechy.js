@@ -559,7 +559,7 @@ window.PP_TRAITS = [
   "d": "P",
   "sa": "दन्त विशुध्दि",
   "pl": "Zęby o czystej, jasnej barwie",
-  "en": "Teeth of pure / clean colour (Harita: dantaviśuddhavarṇa)",
+  "en": "Teeth of pure, clean colour",
   "src": [
    "Hā 1.5.19–20"
   ]

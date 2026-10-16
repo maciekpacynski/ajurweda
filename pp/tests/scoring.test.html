@@ -14,11 +14,13 @@
 <h1>Testy punktacji</h1>
 <p id="sum"></p>
 <ul id="out"></ul>
+<script src="../config.js"></script>
 <script src="../data/cechy.js"></script>
 <script src="../js/scoring.js"></script>
+<script src="../js/season.js"></script>
 <script src="scoring.tests.js"></script>
 <script>
-  var res = PPTestCases(PPScoring, PP_TRAITS), fail = 0, ul = document.getElementById("out");
+  var res = PPTestCases(PPScoring, PP_TRAITS, window.PPSeason, window.PP_CONFIG), fail = 0, ul = document.getElementById("out");
   res.forEach(function (r) {
     var li = document.createElement("li");
     li.className = r.ok ? "ok" : "fail";

@@ -12,16 +12,37 @@ window.PP_I18N = {
     btnLoad: "Wczytaj zapisane badanie",
     confirmNew: "Rozpocząć nowe badanie? Obecne zaznaczenia zostaną usunięte z tej przeglądarki.",
     patientTitle: "Dane badanego",
-    fCode: "Kod lub inicjały",
-    fCodeHelp: "Bez imienia i nazwiska.",
+    fCode: "Badany",
     fDate: "Data badania",
     fAge: "Wiek (lata)",
     fAgeGroup: "Okres życia",
+    moreInfo: "Więcej informacji",
+    ageGroupAuto: "Ustawia się sam po wpisaniu wieku; można zmienić.",
+    infoVayas: "<strong>Okres życia według tekstów klasycznych</strong>" +
+      "<table><tr><th>bāla</th><td>dzieciństwo</td><td>do 16 lat</td></tr>" +
+      "<tr><th>yuvā</th><td>dorosłość</td><td>16–70 lat</td></tr>" +
+      "<tr><th>vṛddha</th><td>starość</td><td>powyżej 70 lat</td></tr></table>" +
+      "<p>Granice według Harity (Prathama Sthāna 5.4) i Sushruty. Charaka podaje inne: dzieciństwo do 30 lat, wiek średni 30–60, starość powyżej 60.</p>" +
+      "<p>W dzieciństwie przeważa Kapha, w wieku średnim Pitta, w starości Vata (AH Sū 1.8). Przy badaniu dziecka lub osoby starszej uwzględnij to przy ocenie cech.</p>",
+    infoRtu: "<strong>Sześć pór roku w Ajurwedzie – odpowiedniki w Polsce</strong>" +
+      "<table><tr><th>Hemanta</th><td>wczesna zima</td><td>1 lis – 31 gru</td><td></td></tr>" +
+      "<tr><th>Śiśira</th><td>późna zima</td><td>1 sty – koniec lut</td><td></td></tr>" +
+      "<tr><th>Vasanta</th><td>wiosna</td><td>1 mar – 31 maj</td><td>nasila Kaphę</td></tr>" +
+      "<tr><th>Grīṣma</th><td>lato</td><td>1 cze – 15 lip</td><td></td></tr>" +
+      "<tr><th>Varṣā</th><td>pora deszczowa</td><td>16 lip – 31 sie</td><td>nasila Vatę</td></tr>" +
+      "<tr><th>Śarad</th><td>jesień</td><td>1 wrz – 31 paź</td><td>nasila Pittę</td></tr></table>" +
+      "<p>Teksty klasyczne opisują pory roku Indii (każda ok. 2 miesiące). Daty dla Polski to nasze przybliżenie: każdą porę dopasowano do okresu, którego pogoda najlepiej odpowiada jej opisowi w AH Sū 3 (mróz i suchość, odwilż, upał, deszcze i burze, słoneczna jesień, pierwszy chłód). Najbardziej umowna jest granica lata i pory deszczowej, bo w Polsce lipiec jest jednocześnie najcieplejszy i najbardziej deszczowy.</p>" +
+      "<p>Pora podpowiada się sama na podstawie daty badania. Przy nietypowej pogodzie (np. ciepły listopad) zmień ją ręcznie.</p>" +
+      "<p>Raport przypomni o porze, w której nasila się przeważająca dosza badanego (AH Sū 12.24–25).</p>",
+    rituAuto: "Podpowiedź na podstawie daty badania (klimat Polski); można zmienić.",
+    fillRequired: "Uzupełnij wymagane pola: wiek i płeć.",
+    stageVriddha: "Badany jest w okresie vṛddha, w którym naturalnie nasila się Vata. Przy ocenie cech Vaty uwzględnij wpływ wieku.",
+    stageBala: "Badany jest w okresie bāla, w którym naturalnie przeważa Kapha. Przy ocenie cech Kaphy uwzględnij wpływ wieku.",
     ageGroups: { bala: "bāla – dzieciństwo", yuva: "yuvā – dorosłość", vriddha: "vṛddha – starość" },
     fSex: "Płeć",
     sexes: { M: "mężczyzna", F: "kobieta" },
     sexHelp: "U kobiet 7 cech dotyczących zarostu i odbioru przez kobiety jest pomijanych i nie wlicza się do wyniku.",
-    fRitu: "Pora roku (ṛtu)",
+    fRitu: "Pora roku",
     ritus: { sisira: "Śiśira – późna zima", vasanta: "Vasanta – wiosna", grishma: "Grīṣma – lato", varsha: "Varṣā – pora deszczowa", sharad: "Śarad – jesień", hemanta: "Hemanta – wczesna zima" },
     fExaminer: "Badający",
     choose: "wybierz…",
@@ -34,7 +55,7 @@ window.PP_I18N = {
       "Zadawaj pytania otwarte i nie sugeruj odpowiedzi. Nie oceniaj.",
       "Cechy takie jak „wysoki”, „duży”, „mało” oceniaj na tle wieku, płci i typowej budowy w populacji.",
       "Cecha może występować w dwóch doszach – wtedy zaznacz ją w obu kolumnach, jeśli pasuje.",
-      "W sekcjach z dopiskiem „wybierz jedną” można zaznaczyć tylko jedną cechę."
+      "W sekcjach Siła fizyczna, Trawienie, Zasoby i Majątek można zaznaczyć tylko jedną cechę – zaznaczenie nowej odznacza poprzednią."
     ],
     btnStart: "Rozpocznij badanie",
     section: "Sekcja",
@@ -72,7 +93,7 @@ window.PP_I18N = {
     notesTitle: "Uwagi",
     generalNote: "Uwagi ogólne",
     generalNoteHelp: "Np. cechy trudne do oceny, podejrzenie choroby wymagające konsultacji.",
-    metaCode: "Kod", metaDate: "Data", metaAge: "Wiek", metaSex: "Płeć", metaRitu: "Pora roku", metaExaminer: "Badający",
+    metaCode: "Badany", metaDate: "Data", metaAge: "Wiek", metaSex: "Płeć", metaRitu: "Pora roku", metaExaminer: "Badający",
     btnPrint: "Drukuj / zapisz PDF",
     btnSave: "Zapisz badanie (JSON)",
     btnCsv: "Eksport CSV",
@@ -118,16 +139,37 @@ window.PP_I18N = {
     btnLoad: "Open a saved assessment",
     confirmNew: "Start a new assessment? The current ticks will be removed from this browser.",
     patientTitle: "About the person",
-    fCode: "Code or initials",
-    fCodeHelp: "No full name.",
+    fCode: "Person examined",
     fDate: "Date",
     fAge: "Age (years)",
     fAgeGroup: "Stage of life",
+    moreInfo: "More information",
+    ageGroupAuto: "Set automatically from the age; you can change it.",
+    infoVayas: "<strong>Stage of life in the classical texts</strong>" +
+      "<table><tr><th>bāla</th><td>childhood</td><td>up to 16</td></tr>" +
+      "<tr><th>yuvā</th><td>adulthood</td><td>16–70</td></tr>" +
+      "<tr><th>vṛddha</th><td>old age</td><td>over 70</td></tr></table>" +
+      "<p>Boundaries according to Harita (Prathama Sthāna 5.4) and Sushruta. Charaka gives others: childhood up to 30, middle age 30–60, old age over 60.</p>" +
+      "<p>Kapha predominates in childhood, Pitta in middle age and Vata in old age (AH Sū 1.8). Keep this in mind when assessing a child or an older person.</p>",
+    infoRtu: "<strong>The six seasons of Ayurveda – equivalents in Poland</strong>" +
+      "<table><tr><th>Hemanta</th><td>early winter</td><td>1 Nov – 31 Dec</td><td></td></tr>" +
+      "<tr><th>Śiśira</th><td>late winter</td><td>1 Jan – end of Feb</td><td></td></tr>" +
+      "<tr><th>Vasanta</th><td>spring</td><td>1 Mar – 31 May</td><td>increases Kapha</td></tr>" +
+      "<tr><th>Grīṣma</th><td>summer</td><td>1 Jun – 15 Jul</td><td></td></tr>" +
+      "<tr><th>Varṣā</th><td>rainy season</td><td>16 Jul – 31 Aug</td><td>increases Vata</td></tr>" +
+      "<tr><th>Śarad</th><td>autumn</td><td>1 Sep – 31 Oct</td><td>increases Pitta</td></tr></table>" +
+      "<p>The classical texts describe the seasons of India (about two months each). The dates for Poland are our approximation: each season is matched to the period whose weather best fits its description in AH Sū 3 (frost and dryness, thaw, heat, rain and storms, sunny autumn, first cold). The boundary between summer and the rainy season is the most arbitrary, as in Poland July is both the warmest and the wettest month.</p>" +
+      "<p>The season is suggested from the examination date. In unusual weather (e.g. a warm November) change it by hand.</p>" +
+      "<p>The report reminds you of the season in which the person's predominant dosha increases (AH Sū 12.24–25).</p>",
+    rituAuto: "Suggested from the examination date (Polish climate); you can change it.",
+    fillRequired: "Fill in the required fields: age and sex.",
+    stageVriddha: "The person is in the vṛddha stage, in which Vata naturally increases. Take age into account when assessing Vata traits.",
+    stageBala: "The person is in the bāla stage, in which Kapha naturally predominates. Take age into account when assessing Kapha traits.",
     ageGroups: { bala: "bāla – childhood", yuva: "yuvā – adulthood", vriddha: "vṛddha – old age" },
     fSex: "Sex",
     sexes: { M: "male", F: "female" },
     sexHelp: "For women, 7 traits about beard and being disliked by women are skipped and not scored.",
-    fRitu: "Season (ṛtu)",
+    fRitu: "Season",
     ritus: { sisira: "Śiśira – late winter", vasanta: "Vasanta – spring", grishma: "Grīṣma – summer", varsha: "Varṣā – rainy season", sharad: "Śarad – autumn", hemanta: "Hemanta – early winter" },
     fExaminer: "Examiner",
     choose: "choose…",
@@ -140,7 +182,7 @@ window.PP_I18N = {
       "Ask open questions and don't suggest answers. Don't judge.",
       "Judge words like “tall”, “large”, “little” against age, sex and the usual build in the population.",
       "A trait may appear under two doshas – tick it in both columns if it fits.",
-      "In sections marked “choose one” only one trait can be ticked."
+      "In the sections Physical strength, Digestion, Means and Wealth only one trait can be ticked – ticking a new one clears the previous one."
     ],
     btnStart: "Start the assessment",
     section: "Section",
@@ -178,7 +220,7 @@ window.PP_I18N = {
     notesTitle: "Notes",
     generalNote: "General notes",
     generalNoteHelp: "E.g. traits that were hard to judge, a suspected illness that needs a doctor.",
-    metaCode: "Code", metaDate: "Date", metaAge: "Age", metaSex: "Sex", metaRitu: "Season", metaExaminer: "Examiner",
+    metaCode: "Person examined", metaDate: "Date", metaAge: "Age", metaSex: "Sex", metaRitu: "Season", metaExaminer: "Examiner",
     btnPrint: "Print / save PDF",
     btnSave: "Save assessment (JSON)",
     btnCsv: "Export CSV",

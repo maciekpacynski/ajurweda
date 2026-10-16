@@ -49,7 +49,6 @@
     var b = document.getElementById("lang");
     b.textContent = t("langSwitch");
     b.setAttribute("lang", lang === "pl" ? "en" : "pl");
-    document.getElementById("footer-text").textContent = t("footer");
   }
 
   /* ---------- screens ---------- */
@@ -60,7 +59,7 @@
         '<h2 class="start-title">' + esc(t("appTitle")) + '</h2>' +
         '<p class="lead">' + esc(t("startLead")) + '</p>' +
         '<p>' + esc(t("startHow")) + '</p>' +
-        '<div class="tri" aria-hidden="true"><span class="v">Vata</span><span class="p">Pitta</span><span class="k">Kapha</span></div>' +
+        '<div class="tri" aria-hidden="true"><span class="v">' + window.ppDoshaIcon("V", 26) + 'Vata</span><span class="p">' + window.ppDoshaIcon("P", 26) + 'Pitta</span><span class="k">' + window.ppDoshaIcon("K", 26) + 'Kapha</span></div>' +
         '<p class="disclaimer">' + esc(t("disclaimer")) + '</p>' +
         '<div class="actions">' +
           (hasData ? '<button class="btn primary" data-act="continue">' + esc(t("btnContinue")) + '</button>' : '') +
@@ -70,8 +69,13 @@
       '</section>';
   }
 
-  function field(id, label, control, help) {
-    return '<div class="field"><label for="' + id + '">' + esc(label) + '</label>' + control +
+  // label: text; opts.skt: Sanskrit term (italic); opts.info: HTML for the (i) tooltip
+  function field(id, label, control, help, opts) {
+    opts = opts || {};
+    var skt = opts.skt ? ' <i class="lbl-skt" lang="sa-Latn">' + esc(opts.skt) + '</i>' : '';
+    var info = opts.info ? '<span class="info"><button type="button" class="info-btn" aria-label="' + esc(t("moreInfo")) + ': ' + esc(label) +
+      '" aria-describedby="' + id + '-tip">i</button><span class="info-tip" role="tooltip" id="' + id + '-tip">' + opts.info + '</span></span>' : '';
+    return '<div class="field"><div class="lbl-row"><label for="' + id + '">' + esc(label) + skt + '</label>' + info + '</div>' + control +
       (help ? '<p class="help" id="' + id + '-help">' + esc(help) + '</p>' : '') + '</div>';
   }
   function select(id, obj, value, required) {
@@ -88,14 +92,14 @@
       '<section class="screen narrow">' +
         '<h2>' + esc(t("patientTitle")) + '</h2>' +
         '<form id="patient-form" novalidate>' +
-          field("p-code", t("fCode"), '<input id="p-code" data-p="code" value="' + esc(p.code) + '" autocomplete="off" aria-describedby="p-code-help">', t("fCodeHelp")) +
+          field("p-code", t("fCode"), '<input id="p-code" data-p="code" value="' + esc(p.code) + '" autocomplete="off">') +
           '<div class="row">' +
             field("p-date", t("fDate"), '<input id="p-date" type="date" data-p="date" value="' + esc(p.date) + '">') +
-            field("p-age", t("fAge"), '<input id="p-age" type="number" min="0" max="120" inputmode="numeric" data-p="age" value="' + esc(p.age) + '">') +
+            field("p-age", t("fAge"), '<input id="p-age" type="number" min="0" max="120" inputmode="numeric" data-p="age" required value="' + esc(p.age) + '">') +
           '</div>' +
-          field("p-ageGroup", t("fAgeGroup"), select("p-ageGroup", t("ageGroups"), p.ageGroup)) +
+          field("p-ageGroup", t("fAgeGroup"), select("p-ageGroup", t("ageGroups"), p.ageGroup), t("ageGroupAuto"), { skt: "vayas", info: t("infoVayas") }) +
           field("p-sex", t("fSex"), select("p-sex", t("sexes"), p.sex, true).replace("<select", '<select aria-describedby="p-sex-help"'), t("sexHelp")) +
-          field("p-ritu", t("fRitu"), select("p-ritu", t("ritus"), p.ritu)) +
+          field("p-ritu", t("fRitu"), select("p-ritu", t("ritus"), p.ritu), t("rituAuto"), { skt: "ṛtu", info: t("infoRtu") }) +
           field("p-examiner", t("fExaminer"), '<input id="p-examiner" data-p="examiner" value="' + esc(p.examiner) + '" autocomplete="name">') +
           '<div class="actions">' +
             '<button type="button" class="btn ghost" data-act="to-start">' + esc(t("btnBack")) + '</button>' +
@@ -130,7 +134,7 @@
       var any = c.V + c.P + c.K;
       return '<li><button class="nav-item' + (sec.n === cur ? ' current' : '') + (any ? ' done' : '') + '" data-sec="' + sec.n + '"' +
         (sec.n === cur ? ' aria-current="step"' : '') + '>' +
-        '<span class="nav-n">' + sec.n + '</span><span class="nav-name">' + esc(secName(sec)) + '</span>' +
+        '<span class="nav-n">' + sec.n + '</span><span class="nav-name">' + window.ppIcon(sec.n, 18) + '<span>' + esc(secName(sec)) + '</span></span>' +
         '<span class="nav-dots" aria-label="' + esc(t("ticked")) + ': V ' + c.V + ', P ' + c.P + ', K ' + c.K + '">' +
           DOSHAS.map(function (d) { return '<i class="dot ' + d.toLowerCase() + (c[d] ? ' on' : '') + '">' + (c[d] || "") + '</i>'; }).join("") +
         '</span></button></li>';
@@ -143,9 +147,7 @@
     return '<li class="trait' + (on ? ' on' : '') + '">' +
       '<label><input type="checkbox" data-trait="' + x.id + '"' + (on ? ' checked' : '') + '>' +
       '<span class="tx"><span class="name">' + esc(traitText(x)) +
-        (x.sens ? ' <abbr class="sens" title="' + esc(t("classicalTitle")) + '">' + esc(t("classical")) + '</abbr>' : '') +
       '</span><span class="meta">' + meta + '</span>' +
-      (x.note ? '<span class="fnote">' + esc(t("formNote")) + ': ' + esc(x.note.replace(/^.*form:\s*/, "")) + '</span>' : '') +
       '</span></label></li>';
   }
 
@@ -155,8 +157,8 @@
     var cols = DOSHAS.map(function (d) {
       var list = items.filter(function (x) { return x.d === d; });
       return '<div class="col ' + d.toLowerCase() + '">' +
-        '<h3 class="col-h"><span>' + dn(d) + '</span><small>' + list.filter(function (x) { return checked.has(x.id); }).length + ' / ' + list.length + '</small></h3>' +
-        (list.length ? '<ul>' + list.map(traitHtml).join("") + '</ul>' : '<p class="empty">—</p>') +
+        '<h3 class="col-h"><span>' + window.ppDoshaIcon(d, 20) + dn(d) + '</span><small>' + list.filter(function (x) { return checked.has(x.id); }).length + ' / ' + list.length + '</small></h3>' +
+        (list.length ? '<ul>' + list.map(traitHtml).join("") + '</ul>' : '') +
         '</div>';
     }).join("");
     var hint = lang === "pl" ? sec.hint_pl : sec.hint_en;
@@ -172,9 +174,9 @@
         '<section class="sec">' +
           '<header class="sec-h">' +
             '<p class="sec-progress">' + esc(fmt(t("progress"), { n: n, total: SECTIONS.length })) + '</p>' +
-            '<h2><span class="sec-n">' + n + '</span> ' + esc(secName(sec)) + ' <span class="sa" lang="sa">' + esc(sec.sa) + '</span></h2>' +
-            (sec.grp ? '<p class="pick-one">' + esc(t("pickOne")) + '</p>' : '') +
-            (hint ? '<details class="hint"' + (n === 1 ? ' open' : '') + '><summary>' + esc(t("hintLabel")) + '</summary><p>' + esc(hint) + '</p></details>' : '') +
+            '<h2><span class="sec-n">' + n + '</span>' + window.ppIcon(n, 28) + '<span class="sec-name">' + esc(secName(sec)) + '</span>' +
+              '<span class="sec-skt"><i lang="sa-Latn">' + esc(sec.tr) + '</i> <span class="sa" lang="sa">' + esc(sec.sa) + '</span></span></h2>' +
+            (hint ? '<details class="hint"' + (ST.getHintOpen() ? ' open' : '') + '><summary>' + esc(t("hintLabel")) + '</summary><p>' + esc(hint) + '</p></details>' : '') +
           '</header>' +
           '<div class="cols">' + cols + '</div>' +
           '<div class="field note"><label for="sec-note">' + esc(t("noteLabel")) + '</label>' +
@@ -185,6 +187,12 @@
           '</div>' +
         '</section>' +
       '</div>';
+  }
+
+  // one icon per dosha in the type: 1 single, 2 dual, 3 sama (in V-P-K order)
+  function typeIcons(r) {
+    var ds = r.type === "sama" ? DOSHAS : r.doshas;
+    return ds.map(function (d) { return '<span class="' + d.toLowerCase() + '">' + window.ppDoshaIcon(d, 48) + '</span>'; }).join("");
   }
 
   function typeLabel(r) {
@@ -210,7 +218,7 @@
   function recItems(d, other) {
     var R = window.PP_RECS.single[d];
     return '<div class="rec ' + d.toLowerCase() + '">' +
-      '<h4>' + esc(fmt(t("recFor"), { d: t("doshaAcc")[d] })) + '</h4>' +
+      '<h4>' + window.ppDoshaIcon(d, 20) + esc(fmt(t("recFor"), { d: t("doshaAcc")[d] })) + '</h4>' +
       '<p class="rec-intro">' + esc(lang === "pl" ? R.intro_pl : R.intro_en) + '</p>' +
       '<ul>' + R.items.map(function (it) {
         var fx = other && it.fx && it.fx[other];
@@ -251,6 +259,13 @@
       '<p class="disclaimer">' + esc(t("recDisclaimer")) + '</p></section>';
   }
 
+  // Life stage note (AH Sū 1.8: Kapha predominates in childhood, Pitta in the middle, Vata in old age)
+  function lifeStageNote() {
+    var g = state.patient.ageGroup;
+    if (g !== "bala" && g !== "vriddha") return "";
+    return '<p class="stage-note" role="note">' + esc(t(g === "vriddha" ? "stageVriddha" : "stageBala")) + ' <span class="src">AH Sū 1.8</span></p>';
+  }
+
   // Warn when one or two extra ticks would swap the two leading doshas.
   function uncertainty(r) {
     var m = S.margin(r);
@@ -275,24 +290,27 @@
     }
     var tl = typeLabel(r);
     var bar = DOSHAS.map(function (d) {
-      return '<div class="seg ' + d.toLowerCase() + '" style="flex-basis:' + r.share[d].toFixed(2) + '%">' +
-        '<span class="seg-l">' + dn(d) + '</span><span class="seg-v">' + pct(r.share[d]) + '</span></div>';
+      return '<div class="seg ' + d.toLowerCase() + '" style="flex-basis:' + r.share[d].toFixed(2) + '%"></div>';
+    }).join("");
+    var legend = DOSHAS.map(function (d) {
+      return '<div class="leg ' + d.toLowerCase() + '">' + window.ppDoshaIcon(d, 22) +
+        '<span class="leg-l">' + dn(d) + '</span><span class="leg-v">' + pct(r.share[d]) + '</span></div>';
     }).join("");
     var table = '<table class="sum"><thead><tr><th scope="col">' + esc(t("colDosha")) + '</th><th scope="col">' + esc(t("colTotal")) +
       '</th><th scope="col">' + esc(t("colHit")) + '</th><th scope="col">' + esc(t("colCov")) + '</th><th scope="col">' + esc(t("colShare")) + '</th></tr></thead><tbody>' +
       DOSHAS.map(function (d) {
-        return '<tr class="' + d.toLowerCase() + '"><th scope="row"><i class="sw"></i>' + dn(d) + '</th><td>' + r.total[d] + '</td><td>' + r.hit[d] +
+        return '<tr class="' + d.toLowerCase() + '"><th scope="row">' + window.ppDoshaIcon(d, 18) + dn(d) + '</th><td>' + r.total[d] + '</td><td>' + r.hit[d] +
           '</td><td>' + pct(r.coverage[d]) + '</td><td>' + pct(r.share[d]) + '</td></tr>';
       }).join("") + '</tbody></table>';
     var bs = S.bySection(TRAITS, checked, state.patient.sex);
     var secRows = SECTIONS.filter(function (s) { return bs[s.n]; }).map(function (s) {
       var c = bs[s.n];
-      return '<tr><th scope="row">' + s.n + '. ' + esc(secName(s)) + '</th>' + DOSHAS.map(function (d) { return '<td class="' + d.toLowerCase() + (c[d] ? '' : ' zero') + '">' + c[d] + '</td>'; }).join("") + '</tr>';
+      return '<tr><th scope="row"><span class="bs-n">' + s.n + '.</span>' + window.ppIcon(s.n, 18) + esc(secName(s)) + '</th>' + DOSHAS.map(function (d) { return '<td class="' + d.toLowerCase() + (c[d] ? '' : ' zero') + '">' + c[d] + '</td>'; }).join("") + '</tr>';
     }).join("");
     var checkedList = DOSHAS.map(function (d) {
       var list = TRAITS.filter(function (x) { return x.d === d && checked.has(x.id) && S.isAvailable(x, state.patient.sex); });
       if (!list.length) return "";
-      return '<div class="cl ' + d.toLowerCase() + '"><h4>' + dn(d) + ' (' + list.length + ')</h4><ul>' +
+      return '<div class="cl ' + d.toLowerCase() + '"><h4>' + window.ppDoshaIcon(d, 18) + dn(d) + ' (' + list.length + ')</h4><ul>' +
         list.map(function (x) { return '<li>' + esc(traitText(x)) + ' <span class="sa" lang="sa">' + esc(x.sa) + '</span> <span class="src">' + esc(x.src.join(" · ")) + '</span></li>'; }).join("") +
         '</ul></div>';
     }).join("");
@@ -303,16 +321,17 @@
       '<article class="report">' +
         '<header class="rep-h">' +
           '<p class="rep-kicker">' + esc(t("resultTitle")) + '</p>' +
-          '<h2 class="rep-type">' + esc(tl.title) + '</h2>' +
-          '<p class="rep-desc">' + esc(tl.desc) + ' ' + esc(t("pradhana")) + ': <strong>' + dn(r.pradhana) + '</strong>.</p>' +
+          '<h2 class="rep-type"><span class="rep-icons">' + typeIcons(r) + '</span>' + esc(tl.title) + '</h2>' +
+          '<p class="rep-desc">' + esc(tl.desc) + ' ' + esc(t("pradhana")) + ': <strong class="prad ' + r.pradhana.toLowerCase() + '">' + window.ppDoshaIcon(r.pradhana, 18) + dn(r.pradhana) + '</strong>.</p>' +
           metaLine() +
           uncertainty(r) +
+          lifeStageNote() +
         '</header>' +
-        '<section aria-labelledby="h-share"><h3 id="h-share">' + esc(t("shareTitle")) + '</h3><div class="bar">' + bar + '</div></section>' +
+        '<section aria-labelledby="h-share"><h3 id="h-share">' + esc(t("shareTitle")) + '</h3><div class="bar" aria-hidden="true">' + bar + '</div><div class="legend">' + legend + '</div></section>' +
         '<section aria-labelledby="h-table"><h3 id="h-table">' + esc(t("tableTitle")) + '</h3>' + table + '<p class="small">' + esc(t("methodNote")) + '</p></section>' +
         recommendations(r) +
         '<section aria-labelledby="h-sec"><h3 id="h-sec">' + esc(t("bySectionTitle")) + '</h3><table class="bysec"><thead><tr><th></th>' +
-          DOSHAS.map(function (d) { return '<th scope="col" class="' + d.toLowerCase() + '">' + dn(d) + '</th>'; }).join("") + '</tr></thead><tbody>' + secRows + '</tbody></table></section>' +
+          DOSHAS.map(function (d) { return '<th scope="col" class="' + d.toLowerCase() + '">' + window.ppDoshaIcon(d, 16) + dn(d) + '</th>'; }).join("") + '</tr></thead><tbody>' + secRows + '</tbody></table></section>' +
         '<section aria-labelledby="h-checked" class="page-break"><h3 id="h-checked">' + esc(t("checkedTitle")) + '</h3><div class="cls">' + checkedList + '</div></section>' +
         '<section aria-labelledby="h-notes"><h3 id="h-notes">' + esc(t("notesTitle")) + '</h3>' +
           (secNotes ? '<ul class="notes">' + secNotes + '</ul>' : '') +
@@ -336,10 +355,25 @@
   // shows its own save dialog / download bar, so the page stays silent.
   function saveToast(outcome) { if (outcome === "saved") toast(t("saved")); }
 
+  // "Łucja Nowak" → "Lucja_Nowak" (file names without Polish letters or spaces)
+  function asciiName(v) {
+    var pl = { "ą": "a", "ć": "c", "ę": "e", "ł": "l", "ń": "n", "ó": "o", "ś": "s", "ź": "z", "ż": "z",
+               "Ą": "A", "Ć": "C", "Ę": "E", "Ł": "L", "Ń": "N", "Ó": "O", "Ś": "S", "Ź": "Z", "Ż": "Z" };
+    var out = String(v).replace(/[ąćęłńóśźżĄĆĘŁŃÓŚŹŻ]/g, function (c) { return pl[c]; })
+      .normalize("NFD").replace(/[\u0300-\u036f]/g, "")
+      .replace(/[^\w\-]+/g, "_").replace(/^_+|_+$/g, "");
+    return out || "badanie";
+  }
+
   function fileName(ext) {
-    var code = (state.patient.code || "badanie").replace(/[^\w\-]+/g, "_");
+    var code = asciiName(state.patient.code || "badanie");
     return "prakriti_" + code + "_" + (state.patient.date || "") + "." + ext;
   }
+
+  // "How to assess": one open/closed choice for all sections, remembered in this browser.
+  app.addEventListener("toggle", function (e) {
+    if (e.target.classList && e.target.classList.contains("hint")) ST.setHintOpen(e.target.open);
+  }, true);
 
   app.addEventListener("click", function (e) {
     var b = e.target.closest("[data-act], [data-sec]");
@@ -348,7 +382,9 @@
     switch (b.dataset.act) {
       case "new":
         if (state.started && !confirm(t("confirmNew"))) return;
-        state = ST.emptyState(); checked = new Set(); state.started = true; go("patient"); break;
+        state = ST.emptyState(); checked = new Set(); state.started = true;
+        if (window.PPSeason) state.patient.ritu = window.PPSeason.rituFor(state.patient.date, CFG.RITU_PL);
+        go("patient"); break;
       case "continue": go(state.lastScreen || "survey"); break;
       case "to-start": go("start"); break;
       case "to-patient": go("patient"); break;
@@ -391,17 +427,39 @@
     if (el.dataset.p) { state.patient[el.dataset.p] = el.value; persist(); }
   });
 
+  // Season suggested from the examination date (Polish climate, PP_CONFIG.RITU_PL); the examiner can change it.
+  function suggestRitu(iso) {
+    var r = window.PPSeason ? window.PPSeason.rituFor(iso, CFG.RITU_PL) : "";
+    var sel = document.getElementById("p-ritu");
+    if (r && sel) { sel.value = r; state.patient.ritu = r; persist(); }
+  }
+
+  function ageGroupFor(age) {
+    var n = parseInt(age, 10);
+    if (isNaN(n) || n < 0) return "";
+    return n < 16 ? "bala" : (n <= 70 ? "yuva" : "vriddha");
+  }
+
   app.addEventListener("input", function (e) {
     var el = e.target;
     if (el.dataset.p) { state.patient[el.dataset.p] = el.value; persist(); }
+    if (el.dataset.p === "age") {
+      var g = ageGroupFor(el.value), sel = document.getElementById("p-ageGroup");
+      if (g && sel) { sel.value = g; state.patient.ageGroup = g; persist(); }
+    }
+    if (el.dataset.p === "date") suggestRitu(el.value);
     if (el.dataset.act === "note") { state.notes[state.section] = el.value; persist(); }
     if (el.dataset.act === "gnote") { state.generalNote = el.value; persist(); }
   });
 
   app.addEventListener("submit", function (e) {
     e.preventDefault();
-    var sex = document.getElementById("p-sex");
-    if (!sex.value) { sex.focus(); sex.setAttribute("aria-invalid", "true"); return; }
+    var age = document.getElementById("p-age"), sex = document.getElementById("p-sex"), first = null;
+    [age, sex].forEach(function (el) {
+      var bad = !String(el.value).trim();
+      if (bad) { el.setAttribute("aria-invalid", "true"); if (!first) first = el; } else el.removeAttribute("aria-invalid");
+    });
+    if (first) { first.focus(); toast(t("fillRequired")); return; }
     go("guide");
   });
 

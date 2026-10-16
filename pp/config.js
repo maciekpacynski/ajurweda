@@ -5,7 +5,18 @@ window.PP_CONFIG = {
   // Show an "uncertain result" note when this many extra ticks (or fewer) of the second dosha would swap the order.
   UNCERTAIN_TRAITS: 2,
   // localStorage keys are prefixed so they don't collide with other pages on the same domain.
+  // Suggested season from the examination date, for Poland (our approximation, not a classical text).
+  // Each entry: the ṛtu that starts on that month-day (MM-DD).
+  RITU_PL: [
+    { ritu: "sisira",  from: "01-01" },
+    { ritu: "vasanta", from: "03-01" },
+    { ritu: "grishma", from: "06-01" },
+    { ritu: "varsha",  from: "07-16" },
+    { ritu: "sharad",  from: "09-01" },
+    { ritu: "hemanta", from: "11-01" }
+  ],
   STORAGE_KEY: "pp-state-v1",
   LANG_KEY: "pp-lang",
-  VERSION: "1.1.0"
+  HINT_KEY: "pp-hint-open",
+  VERSION: "1.3.0"
 };

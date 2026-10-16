@@ -3,7 +3,7 @@
  */
 (function (root) {
   "use strict";
-  function cases(S, TRAITS) {
+  function cases(S, TRAITS, SE, CFG) {
     var out = [];
     function check(name, ok, detail) { out.push({ name: name, ok: !!ok, detail: detail || "" }); }
     function near(a, b) { return Math.abs(a - b) < 1e-6; }
@@ -78,6 +78,16 @@
     r = S.score(T, pick(9, 3, 1), "M", 10);
     check("Duża przewaga: margines > 2", S.margin(r) > 2, String(S.margin(r)));
     check("Brak wyniku: margines null", S.margin(S.score(T, [], "M", 10)) === null);
+    // Season suggestion for Poland
+    if (SE) {
+      var tb = CFG && CFG.RITU_PL;
+      var exp = [["2026-01-15","sisira"],["2026-02-28","sisira"],["2026-03-01","vasanta"],["2026-05-31","vasanta"],
+                 ["2026-06-01","grishma"],["2026-07-15","grishma"],["2026-07-16","varsha"],["2026-08-31","varsha"],
+                 ["2026-09-01","sharad"],["2026-10-16","sharad"],["2026-11-01","hemanta"],["2026-12-31","hemanta"]];
+      var bad = exp.filter(function (e) { return SE.rituFor(e[0], tb) !== e[1]; });
+      check("Pora roku z daty: 12 dat granicznych", bad.length === 0, JSON.stringify(bad));
+      check("Pora roku: pusta data → brak podpowiedzi", SE.rituFor("", tb) === "");
+    }
     return out;
   }
   root.PPTestCases = cases;

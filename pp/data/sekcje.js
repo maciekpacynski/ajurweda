@@ -3,6 +3,7 @@ window.PP_SECTIONS = [
  {
   "n": 1,
   "sa": "शरीर",
+  "tr": "śarīra",
   "pl": "Ciało",
   "en": "Body",
   "hint_pl": "Oceń budowę całego ciała w odniesieniu do wieku, płci i typowej budowy w populacji. Wyklucz otyłość, obrzęki, wyniszczenie chorobowe i ciążę.",
@@ -11,6 +12,7 @@ window.PP_SECTIONS = [
  {
   "n": 2,
   "sa": "अवयव",
+  "tr": "avayava",
   "pl": "Części ciała",
   "en": "Body parts",
   "hint_pl": "Patrz na proporcje poszczególnych części i ich ruchliwość. Zmiany skórne oceniaj tylko, jeśli są stałe, a nie wynikiem alergii, infekcji czy leków.",
@@ -19,6 +21,7 @@ window.PP_SECTIONS = [
  {
   "n": 3,
   "sa": "दंत",
+  "tr": "danta",
   "pl": "Zęby",
   "en": "Teeth",
   "hint_pl": "Oceniaj w dziennym świetle. Wyklucz próchnicę, kamień, przebarwienia od nałogów, fluorozę i zabiegi ortodontyczne lub kosmetyczne.",
@@ -27,6 +30,7 @@ window.PP_SECTIONS = [
  {
   "n": 4,
   "sa": "नेत्र",
+  "tr": "netra",
   "pl": "Oczy",
   "en": "Eyes",
   "hint_pl": "Wielkość oka oceniaj po tym, ile białka widać wokół tęczówki. Wyklucz zaczerwienienie od zmęczenia, infekcji lub alergii.",
@@ -35,6 +39,7 @@ window.PP_SECTIONS = [
  {
   "n": 5,
   "sa": "त्वचा / वर्ण",
+  "tr": "tvacā / varṇa",
   "pl": "Skóra i karnacja",
   "en": "Skin and complexion",
   "hint_pl": "Oceniaj w naturalnym świetle, na twarzy i przedramieniu. Wyklucz opaleniznę, kosmetyki, żółtaczkę, anemię i choroby skóry. Zmarszczki licz tylko przedwczesne.",
@@ -43,6 +48,7 @@ window.PP_SECTIONS = [
  {
   "n": 6,
   "sa": "केश / लोम / रोम / श्मश्रु",
+  "tr": "keśa / loma / śmaśru",
   "pl": "Włosy i owłosienie",
   "en": "Hair",
   "hint_pl": "Upewnij się, że włosy nie są farbowane ani zabiegowo zmienione. Przy siwieniu zapytaj, w jakim wieku się zaczęło. Odróżnij wypadanie od łamania się włosów.",
@@ -51,6 +57,7 @@ window.PP_SECTIONS = [
  {
   "n": 7,
   "sa": "नख",
+  "tr": "nakha",
   "pl": "Paznokcie",
   "en": "Nails",
   "hint_pl": "Wyklucz lakier, hybrydy, grzybicę i zmiany od pracy fizycznej.",
@@ -59,6 +66,7 @@ window.PP_SECTIONS = [
  {
   "n": 8,
   "sa": "संधि",
+  "tr": "sandhi",
   "pl": "Stawy",
   "en": "Joints",
   "hint_pl": "Wielkość stawu oceniaj po strukturach wokół niego. Wyklucz zmiany zwyrodnieniowe, dnę, urazy.",
@@ -67,6 +75,7 @@ window.PP_SECTIONS = [
  {
   "n": 9,
   "sa": "क्षुत्",
+  "tr": "kṣut",
   "pl": "Głód",
   "en": "Hunger",
   "hint_pl": "Pytaj o stały wzorzec, nie o ostatnie tygodnie. Wyklucz cukrzycę, nadczynność tarczycy, stres i leki zmieniające apetyt.",
@@ -75,6 +84,7 @@ window.PP_SECTIONS = [
  {
   "n": 10,
   "sa": "तृट्",
+  "tr": "tṛṭ",
   "pl": "Pragnienie",
   "en": "Thirst",
   "hint_pl": "Pytaj o typowe pragnienie poza upałem i wysiłkiem.",
@@ -83,6 +93,7 @@ window.PP_SECTIONS = [
  {
   "n": 11,
   "sa": "क्रिया / चेष्टा / गति",
+  "tr": "kriyā / ceṣṭā / gati",
   "pl": "Aktywność i chód",
   "en": "Activity and gait",
   "hint_pl": "Obserwuj chód i ruchy od wejścia osoby do gabinetu. Wyklucz urazy, ból i choroby neurologiczne.",
@@ -91,6 +102,7 @@ window.PP_SECTIONS = [
  {
   "n": 12,
   "sa": "वाणी / स्वर",
+  "tr": "vāṇī / svara",
   "pl": "Głos i mowa",
   "en": "Voice and speech",
   "hint_pl": "Oceniaj podczas zwykłej rozmowy. Zdenerwowanie lub zawód (np. nauczyciel) mogą zmieniać tempo i ilość mowy.",
@@ -99,6 +111,7 @@ window.PP_SECTIONS = [
  {
   "n": 13,
   "sa": "निद्रा",
+  "tr": "nidrā",
   "pl": "Sen",
   "en": "Sleep",
   "hint_pl": "Wyklucz pracę zmianową, ból przewlekły, depresję, bezdech i leki.",
@@ -107,6 +120,7 @@ window.PP_SECTIONS = [
  {
   "n": 14,
   "sa": "स्वप्न",
+  "tr": "svapna",
   "pl": "Sny",
   "en": "Dreams",
   "hint_pl": "Pytaj o sny powtarzające się przez całe życie. Alkohol, leki i stres mogą zmieniać sny.",
@@ -115,6 +129,7 @@ window.PP_SECTIONS = [
  {
   "n": 15,
   "sa": "बल",
+  "tr": "bala",
   "pl": "Siła fizyczna",
   "en": "Physical strength",
   "hint_pl": "Wybierz jedną odpowiedź. Oceniaj wytrzymałość na wysiłek w porównaniu z rówieśnikami.",
@@ -124,8 +139,9 @@ window.PP_SECTIONS = [
  {
   "n": 16,
   "sa": "अग्नि",
-  "pl": "Trawienie (agni)",
-  "en": "Digestion (agni)",
+  "tr": "agni",
+  "pl": "Trawienie",
+  "en": "Digestion",
   "hint_pl": "Wybierz jedną odpowiedź. Silne: trawi każdą ilość; słabe: musi uważać na ilość i rodzaj jedzenia; nieregularne: raz dobrze, raz źle bez wyraźnej przyczyny.",
   "hint_en": "Choose one. Strong: digests any amount; weak: must be careful with amount and kind of food; irregular: sometimes good, sometimes poor for no clear reason.",
   "grp": "agni"
@@ -133,6 +149,7 @@ window.PP_SECTIONS = [
  {
   "n": 17,
   "sa": "मलद्रव्ये",
+  "tr": "maladravya",
   "pl": "Wydaliny",
   "en": "Waste products",
   "hint_pl": "Pytaj o stały wzorzec pocenia się i wypróżnień, nie o zmiany po chorobie czy lekach.",
@@ -141,6 +158,7 @@ window.PP_SECTIONS = [
  {
   "n": 18,
   "sa": "अभिरुचि",
+  "tr": "abhiruci",
   "pl": "Upodobania",
   "en": "Likings",
   "hint_pl": "Pytaj o upodobania stałe, a przy smakach także o to, co jest dobrze tolerowane.",
@@ -149,6 +167,7 @@ window.PP_SECTIONS = [
  {
   "n": 19,
   "sa": "अनभिरुचि",
+  "tr": "anabhiruci",
   "pl": "Nietolerancje",
   "en": "Dislikings",
   "hint_pl": "Pytaj, czego osoba stale nie znosi: zimna, upału, ostrych potraw, stresu.",
@@ -157,6 +176,7 @@ window.PP_SECTIONS = [
  {
   "n": 20,
   "sa": "बुद्धिः, स्मृति",
+  "tr": "buddhi / smṛti",
   "pl": "Intelekt i pamięć",
   "en": "Intelligence and memory",
   "hint_pl": "Wyklucz choroby i leki wpływające na pamięć oraz zaburzenia nastroju.",
@@ -165,6 +185,7 @@ window.PP_SECTIONS = [
  {
   "n": 21,
   "sa": "सौहृद",
+  "tr": "sauhṛda",
   "pl": "Przyjaźnie",
   "en": "Friendships",
   "hint_pl": "Pytaj, jak długo trwają przyjaźnie i znajomości.",
@@ -173,6 +194,7 @@ window.PP_SECTIONS = [
  {
   "n": 22,
   "sa": "इतर साधन",
+  "tr": "itara sādhana",
   "pl": "Zasoby",
   "en": "Means",
   "hint_pl": "Wybierz jedną odpowiedź. Cecha z tekstu klasycznego (Charaka) opisująca typowe zasoby osoby danej konstytucji.",
@@ -182,6 +204,7 @@ window.PP_SECTIONS = [
  {
   "n": 23,
   "sa": "धन",
+  "tr": "dhana",
   "pl": "Majątek",
   "en": "Wealth",
   "hint_pl": "Wybierz jedną odpowiedź. Cecha z tekstu klasycznego (Charaka, Sushruta).",
@@ -191,6 +214,7 @@ window.PP_SECTIONS = [
  {
   "n": 24,
   "sa": "विकार",
+  "tr": "vikāra",
   "pl": "Podatność na choroby",
   "en": "Susceptibility to disease",
   "hint_pl": "Pytaj o całe życie, nie o ostatni okres.",
@@ -199,6 +223,7 @@ window.PP_SECTIONS = [
  {
   "n": 25,
   "sa": "अन्य",
+  "tr": "anya",
   "pl": "Inne",
   "en": "Miscellaneous",
   "hint_pl": "",
@@ -207,6 +232,7 @@ window.PP_SECTIONS = [
  {
   "n": 26,
   "sa": "स्वभाव",
+  "tr": "svabhāva",
   "pl": "Natura i temperament",
   "en": "Nature and temperament",
   "hint_pl": "Pytaj o stałe skłonności, bez sugerowania odpowiedzi i bez oceniania. Wyklucz zaburzenia nastroju i wpływ substancji.",
@@ -215,8 +241,9 @@ window.PP_SECTIONS = [
  {
   "n": 27,
   "sa": "अनुकत्व",
-  "pl": "Podobieństwo (anukatva)",
-  "en": "Resemblance (anukatva)",
+  "tr": "anukatva",
+  "pl": "Podobieństwo",
+  "en": "Resemblance",
   "hint_pl": "Klasyczna typologia z Sushruty: do jakiego zwierzęcia lub istoty jest podobny charakter osoby. Zaznacz tylko wyraźne podobieństwa.",
   "hint_en": "Classical typology from Sushruta: which animal or being the person's character resembles. Tick only clear resemblances."
  }
