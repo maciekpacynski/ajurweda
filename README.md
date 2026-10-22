@@ -1,0 +1,3 @@
+# Ajurweda
+
+Strona jest zaszyfrowana.
